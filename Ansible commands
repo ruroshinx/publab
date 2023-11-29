@@ -1,0 +1,82 @@
+Ansible ad-hoc commands
+
+** ansible all --key-file ~/.ssh/ansible -i inventory -m ping
+
+Once ansible.cfg is configured with key-file & inventory file you can shorten the command to:
+** ansible all -m ping
+
+** ansible all --list-hosts
+
+** ansible all -m gather_facts
+
+** ansible all -m gather_facts --limit user@ip
+
+** ansible all -m apt -a update_cache=true --become --ask-become-pass
+    --become - runs commands as Sudo User
+    --ask-become-pass - uses sudo user password to run sudo commands
+    
+install apps command   
+** ansible all -m apt -a name=pluma --become --ask-become-pass
+
+update current app command
+** ansible all -m apt -a "name=pluma state=latest" --become --ask-become-pass
+
+upgrade disto command
+** ansible all -m apt -a "ugrade=dist" --become --ask-become-pass
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+how to run playbooks & tips
+
+** ansible-playbook --ask-become-pass install_cmatrix.yml
+
+** ansible-playbook --ask-become-pass remove_cmatrix.yml
+
+** ansible-playbook --ask-become-pass install_apache.yml
+
+** ansible-playbook --ask-become-pass site.yml
+
+
+after adding vars to inventory file reducing commands to 
+
+** ansible-playbook install_cmatrix.yml
+
+** ansible-playbook remove_cmatrix.yml
+
+** ansible-playbook install_apache.yml
+
+** ansible-playbook site.yml
+
+** ansible-playbook remove_site.yml
+
+** ansible-playbook copy_file.yml
+
+** ansible-playbook workstations.yml
+
+** ansible-playbook add_ansible_usr.yml
+
+** ansible-playbook apply_ansible_sshkey.yml
+
+** ansible-playbook bootstrap.yml
+
+check facts on targe machine to develope playbook file
+
+** ansible all -m gather_facts --limit ip | grep ansible_distribution
+
+    ex:
+        "ansible_distribution": "Ubuntu",
+        "ansible_distribution_file_parsed": true,
+        "ansible_distribution_file_path": "/etc/os-release",
+        "ansible_distribution_file_variety": "Debian",
+        "ansible_distribution_major_version": "22",
+        "ansible_distribution_release": "jammy",
+        "ansible_distribution_version": "22.04",
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+** ansible-playbook --list-tags site.yml
+
+target machines by tag in code below
+ 
+** ansible-playbook --tags rhel site.yml
+
+** ansible-playbook --tags "debian,ubuntu" site.yml
+

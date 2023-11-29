@@ -1,0 +1,48 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Updates Cache (RedHat)
+    tags: always
+    yum:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "RedHat"
+
+  - name: Updates Cache (Debian & Ubuntu)
+    tags: always
+    apt:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == ["Debian", "Ubuntu"]
+
+- hosts: all
+  become: true
+  roles:
+    - base
+
+
+- hosts: ubuntu_servers
+  become: true
+  roles:
+    - ubuntu_servers
+
+
+- hosts: rhel_servers
+  become: true
+  roles: 
+    - rhel_servers
+  
+    
+- hosts: debian_servers
+  become: true
+  roles: 
+    - debian_servers
+   
+    
+- hosts: workstations
+  become: true
+  roles: 
+    - workstations

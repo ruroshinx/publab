@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: update repo index
+    package: 
+      update_cache: yes
+  
+  - name: install cmatrix package
+    package:
+      name: cmatrix
+      state: latest
+

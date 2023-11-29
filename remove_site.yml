@@ -1,0 +1,53 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: = Updates Cache (RedHat)
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "RedHat"
+
+  - name: Updates Cache (Debian & Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == ["Debian", "Ubuntu"]
+
+
+- hosts: ubuntu_servers
+  become: true
+  tasks:
+  
+  - name: install apache2 & php packages for debian & ubuntu
+    apt:
+      name: 
+        - apache2
+        - libapache2-mod-php
+      state: absent
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: rhel_servers
+  become: true
+  tasks:
+
+  - name: install apache & php packages for RedHat
+    yum:
+      name: 
+        - httpd
+        - php
+      state: absent
+    when: ansible_distribution == "RedHat"
+
+
+- hosts: debian_servers
+  become: true
+  tasks:
+  
+  - name: install pluma gui text editor 
+    apt:
+      name: pluma
+      state: absent
+    when: ansible_distribution == "Debian"

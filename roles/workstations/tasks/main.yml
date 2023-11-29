@@ -1,0 +1,22 @@
+- name: install unzip
+  tags: unzip
+  package:
+    name: unzip
+    state: latest
+
+- name: install terraform
+  tags: terraform
+  unarchive:
+    src: https://releases.hashicorp.com/terraform/1.6.4/terraform_1.6.4_linux_amd64.zip
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: 0775
+    owner: root
+    group: root
+
+- name: install pluma gui text editor 
+  tags: pluma,gui_text_editor,debian
+  apt:
+    name: pluma
+    state: latest
+  when: ansible_distribution == ["Debian", "Ubuntu"]

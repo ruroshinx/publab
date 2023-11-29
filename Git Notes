@@ -1,0 +1,14 @@
+Git Notes
+
+Git status - list file changes since last time commited code
+Git diff - see info chaged within the file
+git add - adds file/chages to the commit
+git commit - commits chages to be pushed to repo
+git push
+git pull - download any changes since working on the repo
+
+get add NameOfFileChanged
+git commit -m "summary about changes"
+git push
+
+get pull
