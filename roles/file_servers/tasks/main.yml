@@ -1,6 +1,0 @@
-- name: install samba package
-  tags: samba,smb,file_server
-  package:
-   name: samba
-     state: latest
-
