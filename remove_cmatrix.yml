@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: update repo index
+    apt: 
+      update_cache: yes
+  
+  - name: install cmatrix package
+    apt:
+      name: cmatrix
+      state: absent
+
+  - name: add pluma gui text editor
+    apt:
+      name: pluma
+      state: absent

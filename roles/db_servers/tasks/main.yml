@@ -1,0 +1,17 @@
+- name: install apache2 & php packages for ubuntu
+  tags: apache,apache2,php,ubuntu,debian
+  apt:
+   name: 
+      - apache2
+      - libapache2-mod-php
+    state: latest
+  when: ansible_distribution == ["Ubuntu", "Debian"]
+
+- name: install apache & php packages for RedHat
+  tags: apache,httpd,php,rhel
+  yum:
+    name: 
+      - httpd
+      - php
+    state: latest
+  when: ansible_distribution == "RedHat"

@@ -1,0 +1,49 @@
+---
+
+- hosts: rhel_servers
+  become: true
+  pre_tasks:
+
+  - name: Updates Cache (RedHat)
+    tags: always
+    yum:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "RedHat"
+
+- hosts: rhel_servers
+  become: true
+  tasks:
+
+  - name: install apache & php packages for RedHat
+    tags: apache,httpd,php,rhel
+    yum:
+      name: 
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "RedHat"
+
+  - name: start httpd
+    tags: httpd,apache,start_service
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "RedHat"
+    
+  - name: change email addrerss for admin
+    tags: apache,rhel,httpd
+    lineinfile: 
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin root@localhost
+    when: ansible_distribution == "RedHat"
+    register: httpd
+    
+  - name: restart httpd
+    tags: httpd,restart,apache
+    service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
